@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!-- Theme Blue: followed by https://material.google.com/style/color.html -->
+    <!-- 500 -->
+    <color name="colorPrimary">#2196f3</color>
+    <!-- 700 -->
+    <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorTwitterButtonLoginBackground">#55acee</color>
+    <color name="colorTwitterButtonLoginText">#ffffff</color>
+
+    <color name="colorButtonLoginBackground">#1565C0</color>
+    <color name="colorButtonLoginText">#ffffff</color>
 </resources>

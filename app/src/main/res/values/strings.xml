@@ -4,9 +4,22 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
 
-    <string name="login_with_facebook">Login with Facebook</string>
-    <string name="login_with_google">Login with Google+</string>
-    <string name="login_with_twitter">Login with Twitter</string>
-    <string name="login_with_password">Login with Password</string>
-    <string name="login_anonymously">Login Anonymously</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_forgot_password">Forgot your password?</string>
+    <string name="login_with_facebook">Sign In with Facebook</string>
+    <string name="login_with_google">Sign In with Google+</string>
+    <string name="login_with_twitter">Sign In with Twitter</string>
+    <string name="login_sign_in_with_password">Sign In</string>
+    <string name="login_sign_up_with_password">Sign Up</string>
+    <string name="login_loading">Loading</string>
+    <string name="login_authenticating">Authenticating</string>
+
+    <string name="login_error_email">The specified email is incorrect.</string>
+    <string name="login_error_password">The specified password is incorrect.</string>
+    <string name="login_password_reset_title">Reset password</string>
+    <string name="login_password_reset_message">Send a new password to %1$s ?</string>
+    <string name="login_password_reset_successful">A new password has been sent to %1$s</string>
+
+    <string name="error_internet">There is something wrong, check your connection.</string>
 </resources>

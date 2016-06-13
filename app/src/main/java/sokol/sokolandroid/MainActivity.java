@@ -2,6 +2,7 @@ package sokol.sokolandroid;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.AsyncTask;
@@ -12,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -103,12 +106,11 @@ public class MainActivity extends AppCompatActivity implements
     /* *************************************
      *              PASSWORD               *
      ***************************************/
-    private Button mPasswordLoginButton;
-
-    /* *************************************
-     *            ANONYMOUSLY              *
-     ***************************************/
-    private Button mAnonymousLoginButton;
+    private Button mPasswordSignInButton;
+    private Button mPasswordSignUpButton;
+    private EditText mPasswordLoginEmail;
+    private EditText mPasswordLoginPassword;
+    private Button mPasswordLoginForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,23 +176,48 @@ public class MainActivity extends AppCompatActivity implements
         /* *************************************
          *               PASSWORD              *
          ***************************************/
-        mPasswordLoginButton = (Button) findViewById(R.id.login_with_password);
-        mPasswordLoginButton.setOnClickListener(new View.OnClickListener() {
+        mPasswordSignInButton = (Button) findViewById(R.id.login_sign_in_with_password);
+        mPasswordSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginWithPassword();
             }
         });
-
-        /* *************************************
-         *              ANONYMOUSLY            *
-         ***************************************/
-        /* Load and setup the anonymous login button */
-        mAnonymousLoginButton = (Button) findViewById(R.id.login_anonymously);
-        mAnonymousLoginButton.setOnClickListener(new View.OnClickListener() {
+        mPasswordSignUpButton = (Button) findViewById(R.id.login_sign_up_with_password);
+        mPasswordLoginEmail = (EditText) findViewById(R.id.login_email);
+        mPasswordLoginPassword = (EditText) findViewById(R.id.login_password);
+        mPasswordLoginForgotPassword = (Button) findViewById(R.id.login_forgot_password);
+        mPasswordLoginForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                loginAnonymously();
+            public void onClick(View v) {
+                String email = mPasswordLoginEmail.getText().toString();
+                if (email.isEmpty()) {
+                    String message = getString(R.string.login_error_email);
+                    showErrorDialog(message);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(R.string.login_password_reset_title);
+                    builder.setMessage(getString(R.string.login_password_reset_message, email));
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String email = mPasswordLoginEmail.getText().toString();
+                            if (email.isEmpty()) {
+                                String message = getString(R.string.login_error_email);
+                                showErrorDialog(message);
+                            } else
+                                mFirebaseRef.resetPassword(email, new ResultHandler(email));
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
 
@@ -204,8 +231,8 @@ public class MainActivity extends AppCompatActivity implements
 
         /* Setup the progress dialog that is displayed later when authenticating with Firebase */
         mAuthProgressDialog = new ProgressDialog(this);
-        mAuthProgressDialog.setTitle("Loading");
-        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+        mAuthProgressDialog.setTitle(getString(R.string.login_loading));
+        mAuthProgressDialog.setMessage(getString(R.string.login_authenticating));
         mAuthProgressDialog.setCancelable(false);
         mAuthProgressDialog.show();
 
@@ -251,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements
                 mGoogleApiClient.connect();
             }
         } else if (requestCode == RC_TWITTER_LOGIN) {
+            if(data == null) return ;
             options.put("oauth_token", data.getStringExtra("oauth_token"));
             options.put("oauth_token_secret", data.getStringExtra("oauth_token_secret"));
             options.put("user_id", data.getStringExtra("user_id"));
@@ -334,8 +362,11 @@ public class MainActivity extends AppCompatActivity implements
             mFacebookLoginButton.setVisibility(View.GONE);
             mGoogleLoginButton.setVisibility(View.GONE);
             mTwitterLoginButton.setVisibility(View.GONE);
-            mPasswordLoginButton.setVisibility(View.GONE);
-            mAnonymousLoginButton.setVisibility(View.GONE);
+            mPasswordSignInButton.setVisibility(View.GONE);
+            mPasswordSignUpButton.setVisibility(View.GONE);
+            mPasswordLoginEmail.setVisibility(View.GONE);
+            mPasswordLoginPassword.setVisibility(View.GONE);
+            mPasswordLoginForgotPassword.setVisibility(View.GONE);
             mLoggedInStatusTextView.setVisibility(View.VISIBLE);
             /* show a provider specific status text */
             String name = null;
@@ -343,9 +374,6 @@ public class MainActivity extends AppCompatActivity implements
                     || authData.getProvider().equals("google")
                     || authData.getProvider().equals("twitter")) {
                 name = (String) authData.getProviderData().get("displayName");
-            } else if (authData.getProvider().equals("anonymous")
-                    || authData.getProvider().equals("password")) {
-                name = authData.getUid();
             } else {
                 Log.e(TAG, "Invalid provider: " + authData.getProvider());
             }
@@ -357,8 +385,11 @@ public class MainActivity extends AppCompatActivity implements
             mFacebookLoginButton.setVisibility(View.VISIBLE);
             mGoogleLoginButton.setVisibility(View.VISIBLE);
             mTwitterLoginButton.setVisibility(View.VISIBLE);
-            mPasswordLoginButton.setVisibility(View.VISIBLE);
-            mAnonymousLoginButton.setVisibility(View.VISIBLE);
+            mPasswordSignInButton.setVisibility(View.VISIBLE);
+            mPasswordSignUpButton.setVisibility(View.VISIBLE);
+            mPasswordLoginEmail.setVisibility(View.VISIBLE);
+            mPasswordLoginPassword.setVisibility(View.VISIBLE);
+            mPasswordLoginForgotPassword.setVisibility(View.VISIBLE);
             mLoggedInStatusTextView.setVisibility(View.GONE);
         }
         this.mAuthData = authData;
@@ -367,15 +398,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
+     * Show successful to users
+     */
+    private void showSuccesfulDialog(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
      * Show errors to users
      */
     private void showErrorDialog(String message) {
-        new AlertDialog.Builder(this)
-                .setTitle("Error")
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -399,14 +432,66 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onAuthenticationError(FirebaseError firebaseError) {
             mAuthProgressDialog.hide();
-            showErrorDialog(firebaseError.toString());
+            String message = getFirebaseErrorMessage(firebaseError);
+            showErrorDialog(message);
         }
     }
 
-    /* ************************************
-     *             FACEBOOK               *
-     **************************************
+    /**
+     * Utility class for results
+     * Sending Password Reset Emails
      */
+
+    private class ResultHandler implements Firebase.ResultHandler {
+
+        private String email;
+        private String password;
+
+        public ResultHandler(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+
+        public ResultHandler(String email) {
+            this.email = email;
+        }
+
+        @Override
+        public void onSuccess() {
+            String message = getString(R.string.login_password_reset_successful, email);
+            showSuccesfulDialog(message);
+        }
+
+        @Override
+        public void onError(FirebaseError firebaseError) {
+            String message = getFirebaseErrorMessage(firebaseError);
+            showErrorDialog(message);
+        }
+    }
+
+    private String getFirebaseErrorMessage(FirebaseError firebaseError){
+        String message = "";
+        switch (firebaseError.getCode()){
+            case FirebaseError.NETWORK_ERROR:
+                message = getString(R.string.error_internet);
+                break;
+            case FirebaseError.INVALID_EMAIL:
+                message = getString(R.string.login_error_email);
+                break;
+            case FirebaseError.INVALID_PASSWORD:
+                message = getString(R.string.login_error_password);
+                break;
+            default:
+                message = firebaseError.toString();
+                break;
+        }
+        return message;
+    }
+
+    /* ************************************
+         *             FACEBOOK               *
+         **************************************
+         */
     private void onFacebookAccessTokenChange(AccessToken token) {
         if (token != null) {
             mAuthProgressDialog.show();
@@ -530,15 +615,9 @@ public class MainActivity extends AppCompatActivity implements
      */
     public void loginWithPassword() {
         mAuthProgressDialog.show();
-        mFirebaseRef.authWithPassword("test@firebaseuser.com", "test1234", new AuthResultHandler("password"));
+        String email = mPasswordLoginEmail.getText().toString();
+        String password = mPasswordLoginPassword.getText().toString();
+        mFirebaseRef.authWithPassword(email, password, new AuthResultHandler("password"));
     }
 
-    /* ************************************
-     *             ANONYMOUSLY            *
-     **************************************
-     */
-    private void loginAnonymously() {
-        mAuthProgressDialog.show();
-        mFirebaseRef.authAnonymously(new AuthResultHandler("anonymous"));
-    }
 }
