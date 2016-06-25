@@ -7,9 +7,9 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorTwitterButtonLoginBackground">#55acee</color>
-    <color name="colorTwitterButtonLoginText">#ffffff</color>
-
     <color name="colorButtonLoginBackground">#1565C0</color>
     <color name="colorButtonLoginText">#ffffff</color>
+
+    <color name="colorTitle">#ffffff</color>
+    <color name="colorSubtitle">#ffffff</color>
 </resources>

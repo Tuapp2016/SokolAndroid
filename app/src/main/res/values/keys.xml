@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="firebase_url">https://sokolunal.firebaseio.com</string>
-
     <!-- Your Facebook App ID from your app settings on https://developers.facebook.com/ -->
     <!-- More details here: https://www.firebase.com/docs/android/guide/login/facebook.html -->
     <string name="facebook_app_id">1624959234488968</string>
 
     <!-- Your Twitter consumer key and secret from your app settings on https://apps.twitter.com/ -->
     <!-- More details here: https://www.firebase.com/docs/android/guide/login/twitter.html  -->
-    <string name="twitter_consumer_key">R0qFN9H3z0GSz6bKrTupGx0l3</string>
-    <string name="twitter_consumer_secret">QefEAvqszXpQV7AMqhKK7t08Xnp0NoAEtGicSpvb7fUEu3S5ML</string>
+    <string name="twitter_consumer_key">EuJFAIRjYsoX46n8UY4LAGfbN</string>
+    <string name="twitter_consumer_secret">LASlk8viEbWe0UzgeoJCDcponXgnd3A7CbO2DzpDCTfTEyByqL</string>
 </resources>

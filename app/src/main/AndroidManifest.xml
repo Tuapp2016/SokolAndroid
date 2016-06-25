@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sokol.sokolandroid" >
+    package="sokol.sokolandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- USE_CREDENTIALS is necessary for Google+ login -->
@@ -14,21 +14,34 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TwitterOAuthActivity" />
         <activity android:name="com.facebook.FacebookActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0075fc3b414c07c8dbdfc8a910be4461016011e5" />
+
+        <activity
+            android:name=".activities.BaseActivity"
+            android:label="@string/title_activity_base"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.ProfileActivity"
+            android:parentActivityName=".activities.BaseActivity"/>
     </application>
 
 </manifest>
