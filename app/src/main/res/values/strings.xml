@@ -51,6 +51,7 @@
 
     <string name="preference_logout" translatable="false">LOGOUT</string>
 
+    <string name="title_actvity_profile">Profile</string>
     <string name="profile_data_user_title">Data user</string>
     <string name="profile_password_title">Password</string>
     <string name="profile_password_change_title">Change your password</string>

@@ -138,6 +138,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         mTabLayout = (TabLayout) findViewById(R.id.base_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                mNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
         setTabIcons();
 
         mProfileName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name);
@@ -163,10 +174,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setTabIcons(){
-        mTabLayout.getTabAt(0).setIcon(R.drawable.ic_action_home);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.ic_action_admin);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.ic_action_user);
-        mTabLayout.getTabAt(3).setIcon(R.drawable.ic_action_viewer);
+        mTabLayout.getTabAt(TAB_NEWS).setIcon(R.drawable.ic_action_home);
+        mTabLayout.getTabAt(TAB_ADMIN).setIcon(R.drawable.ic_action_admin);
+        mTabLayout.getTabAt(TAB_USER).setIcon(R.drawable.ic_action_user);
+        mTabLayout.getTabAt(TAB_VIEWER).setIcon(R.drawable.ic_action_viewer);
     }
 
     private void goToProfileActivity(){
@@ -212,16 +223,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                Log.d(TAG, "Data has been changed for user " + user.getName());
                 mProfileName.setText(user.getName());
                 String URL = user.getProfileImage();
-                Bitmap profileBitmap = null;
                 try {
-                    profileBitmap = new Util.ImageFromURLTask(URL).execute().get();
-                    mProfileImage.setImageBitmap(profileBitmap);
+                    new Util.ImageFromURLTask(URL, mProfileImage).execute();
                 }catch (Exception e){
                     Log.e(TAG, "Error getting image from: " + URL);
                 }
-
             }
 
             @Override
@@ -229,7 +238,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         };
-        mProfileReference.addListenerForSingleValueEvent(mProfileValueEventListener);
+        mProfileReference.addValueEventListener(mProfileValueEventListener);
     }
 
     @Override

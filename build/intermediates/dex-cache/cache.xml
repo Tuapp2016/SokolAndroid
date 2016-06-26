@@ -1,3 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4ec890171a97b5ab98292f131aa784e0f3792c73">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-9.0.2_3f5188a3358d7b160059ea98917311107532ed67\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-common\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="568d5bda0b4d51f90d978ace369bb9ad024d2057">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-common-9.0.2_b8af647423e6a91d3f263d817336e216bda526b2\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\customtabs\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2d1eaa9e0b98f8fc4c2b989d9b30d4f1480648ac">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-customtabs-23.4.0_f7e6404bd5d8d4b73fa75a771db56474d15591da\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_ba101d51f8206747bd0faf3cde86d8f8a6a1f723\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="94d9cedd04b124aed044ac71c451a292856d854c">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-9.0.2_6703e05407a08af956a8780d5d75604bbea73c2d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_d38d161ae9e8e10d3f5ba87fa1d0da78d43fdd67\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_d9891d9e8882230cf0d0a95098e919e779f17a40\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_9dbc1d45b40ff628e32abfa329a5f8e5f02e47bd\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\de.hdodenhof\circleimageview\1.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ac6948cce36f694f3eb3d73a135e298dc4b3527a">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\de.hdodenhof-circleimageview-1.3.0_59555bd9929f5c6d463b4284f737ad13e70c3c0f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c96952c162c9f6076f44c5939982cb35491442ea">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-9.0.2_62d3e937b88501add965f53c06b2c2e9f18d18b0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_82589566b3b05d4783aa0cfa1139e6e6a00b675d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.8.0\a517f29ed06be2b2879524fcd94b6e9b36e2e0b5\retrofit-1.8.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a517f29ed06be2b2879524fcd94b6e9b36e2e0b5">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\retrofit-1.8.0_b636e68a8bfa376c11b10d8d5ed413389d7c9733\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="51a11c41a08f099a204e1b8dcc04f27217de50ec">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-9.0.2_16fd1ec716269c3d238aa60be5a588fcafa95966\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.twitter.sdk.android\tweet-composer\1.0.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0ea42614d0d3d5e9f507cb2f432ae821307cd0dc">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-tweet-composer-1.0.3_a8fd5e752f30e3f8f0e89bf060a3cd58a474a9a2\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.digits.sdk.android\digits\1.10.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2b81327f3afb5c0c84ee6f50df6f750737a44653">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.digits.sdk.android-digits-1.10.3_de7846844b00e5efb4454ce29275aedc94a3dc7b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9819419ce8d79f3f81a0fc70f9345ac8c843af9c">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-9.0.2_006cbed35a64d758d4b98661942fe2e44b475065\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.twitter.sdk.android\tweet-ui\1.10.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2d903060c54d0109fc4efa404a62fac2158d6633">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-tweet-ui-1.10.1_1ded545441b3829d787cf72bf9c4a0bd7c835cab\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4022261eeea0d92eb2997a68d2c1f084a16abad9">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-9.0.2_d1fc08df594b412962a065f34eccbde127aef751\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="060a7157438a0b1b0706b99c430fb3ecbc5a79a4">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-9.0.2_59bdeed4185aed09576e40989746ece012ff666e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="aec1bc54964a85d851c2c1b1cb7f90f7dbd755ab">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-9.0.2_9d1fd9165c66198f29ea1de797263d0bc2fc4adc\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b3d0809a742c5f768c6aa9efc6decd5c1d6cd227">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-9.0.2_f785f6408a5c873db7baabedaf42fadc1819b87f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth-base\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="829c6e46cb221c2102801221c648b77113743e81">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-base-9.0.2_d29183cf9ba45e2a264db4a5d29d1115d93bcb04\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7cba2f83f6705aa8f122030d7c7bae6eeaf33a0d">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_9ae04440ac3124c5e4fd761fb66abc7669aade7c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_b0d9eb03c9e73732433dd11fbacb46193db24e2f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics-impl\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a511c684ea4c2cf31a3377d51e7677cb76696e07">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-impl-9.0.2_32f8e0c91573cdc508ca9cbb35b90c82c5026bb7\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.twitter.sdk.android\twitter\1.13.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e25d39642cf82ff86e13390e7854ef135df232ea">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-twitter-1.13.1_fa6c3372c88f803a2938cfaee9f8850827ec2924\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.twitter\twitter-text\1.13.0\78415b95ae3184c5926d593feab64bfc0b73b2dd\twitter-text-1.13.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="78415b95ae3184c5926d593feab64bfc0b73b2dd">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\twitter-text-1.13.0_e37a0df6c6e9ff0448a3047f0b6994a91ea014fe\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1ce1254ef1d80d2ba00ed87ccb521aa950d0ea7a">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_5d591602f8862f7e5d2641a1f83c0047bccef94c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ad4d4c5914b7b25e51e66f8e2d1b842c67dd63a9">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.13.1_1e692cea9397ae52922824eb7723e72cf0bb5998\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_fcd670c4fd3fbf6592770b6b2207231c33f117f5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-23.4.0_57263fbbc51f33453faa6eb6db63428b3bb85f43\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_675e42584e0d8f42f10abe125effb7199a15e43a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_e51ea2e2f32b677969b50942e6d48f859a099176\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.twitter.sdk.android\twitter-core\1.6.6\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1360908bc3e1751f5e2248e64aedbe4b5944b702">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-twitter-core-1.6.6_ac89acfcf714269fd1e09a57abe3baab363f8eb8\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="fa472b7cbd3897bf6bed6068ac0b00e494987688">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-9.0.2_d6e63301945e3c23e6c9d4978ce205933255fcb3\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_f12bceb42c9269245d8179b4b4953278533977f4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.3_7e340b206acd9a0ede2e6ecf700dcb3d3839479d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.4.0_9ce71195ddc29d0921c795209bd1375ea986ba71\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_10777ca4bad773e72fe4be20bc2bb7d63bca853b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9919563cffd8e3732e944d3c437d4b9575a08448">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-9.0.2_3bb88d6dc922d9793dc30f37092b791421062641\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\io.fabric.sdk.android\fabric\1.3.10\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a5db9a2dd46d84285ef737f65030b74b6e8ee2a4">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\io.fabric.sdk.android-fabric-1.3.10_296a5c0a25571638e2f872b75577e21cb15538d5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-module\9.0.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="79e298d7fed2fcada58da7032d07d34ee198a545">
+        <dex dex="C:\Users\Fabian\Documents\AndroidStudioProjects\SokolAndroid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-module-9.0.2_abe3a11c11fab510ad9248ecb6beba8884f5ecf1\classes.dex" />
+    </item>
+
+</items>

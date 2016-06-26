@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,20 +38,28 @@ public class Util {
     public static class ImageFromURLTask extends AsyncTask<Void, Void, Bitmap>{
 
         private String URL;
+        private ImageView profileImage;
 
-        public ImageFromURLTask(String URL) {
+        public ImageFromURLTask(String URL, ImageView profileImage) {
             this.URL = URL;
+            this.profileImage = profileImage;
         }
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            InputStream inputStream = null;
             Bitmap bitmap = null;
-            try {
-                inputStream = new java.net.URL(URL).openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            }catch (IOException e){
-                Log.e(TAG, "Incorrect URL profile image "+ URL);
+            if(URL.startsWith("http")) {
+                InputStream inputStream = null;
+
+                try {
+                    inputStream = new java.net.URL(URL).openStream();
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                } catch (IOException e) {
+                    Log.e(TAG, "Incorrect URL profile image " + URL);
+                }
+            }else{
+                byte[] decodedImage = Base64.decode(URL, Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(decodedImage, 0 , decodedImage.length);
             }
             return bitmap;
         }
@@ -57,6 +67,7 @@ public class Util {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+            profileImage.setImageBitmap(bitmap);
         }
     }
 }

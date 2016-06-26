@@ -68,10 +68,8 @@ public class ProfileActivity extends AppCompatActivity {
                 mProfileEmail.setText(user.getEmail());
                 mProfileProvider.setImageDrawable(getResources().getDrawable(getDrawableIdFromProvider(user.getProvider())));
                 String URL = user.getProfileImage();
-                Bitmap profileBitmap = null;
                 try {
-                    profileBitmap = new Util.ImageFromURLTask(URL).execute().get();
-                    mProfileImage.setImageBitmap(profileBitmap);
+                    new Util.ImageFromURLTask(URL, mProfileImage).execute();
                 }catch (Exception e){
                     Log.e(TAG, "Error getting image from: " + URL);
                 }

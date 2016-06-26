@@ -76,6 +76,7 @@ public class User {
     public Map<String, Object> toMap(){
         Map<String, Object> result = new HashMap<>();
         result.put("name", name);
+        result.put("email", email);
         result.put("profileImage", profileImage);
         result.put("provider", provider);
         return result;

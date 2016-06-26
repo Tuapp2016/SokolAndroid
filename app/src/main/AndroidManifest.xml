@@ -15,7 +15,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +42,8 @@
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.ProfileActivity"
-            android:parentActivityName=".activities.BaseActivity"/>
+            android:parentActivityName=".activities.BaseActivity"
+            android:label="@string/title_actvity_profile"/>
     </application>
 
 </manifest>
