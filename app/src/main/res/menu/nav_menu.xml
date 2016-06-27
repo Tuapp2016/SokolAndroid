@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/nav_routes_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+            android:checked="true"
+            android:title="@string/nav_news_title"
+            android:icon="@drawable/ic_action_home"/>
+        <item
+            android:id="@+id/nav_admin"
+            android:checked="false"
+            android:title="@string/nav_admin_title"
+            android:icon="@drawable/ic_action_admin"/>
+        <item
+            android:id="@+id/nav_user"
+            android:checked="false"
+            android:title="@string/nav_user_title"
+            android:icon="@drawable/ic_action_user"/>
+        <item
+            android:id="@+id/nav_viewer"
+            android:checked="false"
+            android:title="@string/nav_viewer_title"
+            android:icon="@drawable/ic_action_viewer"/>
+    </group>
+    <group  android:id="@+id/nav_profile_group">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/nav_profile_title"
+            android:icon="@drawable/ic_action_profile"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/nav_settings_title"
+            android:icon="@drawable/ic_action_settings"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:title="@string/nav_logout_title"
+            android:icon="@drawable/ic_action_logout"/>
+    </group>
+</menu>
