@@ -58,4 +58,11 @@
 
     <string name="title_activity_create_route">Create route</string>
     <string name="create_route_name">Name</string>
+    <string name="create_route_desc">Description</string>
+    <string name="create_route_points">Points</string>
+    <string name="create_route_info_window_title">Marker data</string>
+    <string name="create_route_info_window_name_title">Name</string>
+    <string name="create_route_info_window_checkpoint_title">Checkpoint</string>
+    <string name="create_route_info_window_delete_title">Delete</string>
+    <string name="title_activity_create_route_maps">Map</string>
 </resources>

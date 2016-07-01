@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sokol.sokolandroid.CreateRouteActivity">
+    tools:context=".activities.CreateRouteActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,13 +24,41 @@
                 android:layout_height="match_parent"
                 android:hint="@string/create_route_name"/>
         </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/create_route_points"
+            android:id="@+id/textView4"
+            android:paddingBottom="8dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/create_route_desc_ti"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/create_route_desc_ti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/create_route_name_ti"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <EditText
+                android:id="@+id/create_route_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_route_desc"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:maxLines="5"
+                android:layout_above="@+id/create_route_recycle" />
+        </android.support.design.widget.TextInputLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/create_route_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/textView4"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/create_route_name_ti"/>
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/create_route_fab"
