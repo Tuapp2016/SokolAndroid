@@ -44,6 +44,7 @@
         <activity android:name=".activities.ProfileActivity"
             android:parentActivityName=".activities.BaseActivity"
             android:label="@string/title_actvity_profile"/>
+        <activity android:name=".activities.SignUp" />
     </application>
 
 </manifest>

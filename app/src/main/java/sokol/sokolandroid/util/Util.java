@@ -11,14 +11,31 @@ import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
 
     public static final String TAG = Util.class.getName();
+
+    public static boolean isEmail(String email)
+    {
+        Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    public static String bitMaptoBase64(Bitmap bm)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return Base64.encodeToString( byteArray, Base64.DEFAULT);
+    }
 
     public static boolean validateEmail(String email){
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();

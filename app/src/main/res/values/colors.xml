@@ -12,4 +12,7 @@
 
     <color name="colorTitle">#ffffff</color>
     <color name="colorSubtitle">#ffffff</color>
+
+    <color name="colorButtonBackground">#1565C0</color>
+    <color name="colorButtonText">#ffffff</color>
 </resources>

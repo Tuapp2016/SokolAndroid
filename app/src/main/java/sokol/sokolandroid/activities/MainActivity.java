@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements
         mPasswordSignInButton = (Button) findViewById(R.id.login_sign_in_with_password);
         mPasswordSignInButton.setOnClickListener(this);
         mPasswordSignUpButton = (Button) findViewById(R.id.login_sign_up);
+        mPasswordSignUpButton.setOnClickListener(this);
         mPasswordLoginEmail = (EditText) findViewById(R.id.login_email);
         mPasswordLoginPassword = (EditText) findViewById(R.id.login_password);
         mPasswordLoginForgotPassword = (Button) findViewById(R.id.login_forgot_password);
@@ -575,6 +576,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    public void signUp()
+    {
+        Intent intentSignUp = new Intent(MainActivity.this, SignUp.class);
+        startActivity(intentSignUp);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -586,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements
                 loginForgotPassword();
                 break;
             case R.id.login_sign_up:
-                //Call sign up activity
+                signUp();
                 break;
             case R.id.login_with_google:
                 loginWithGoogle();

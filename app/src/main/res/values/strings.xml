@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">Sokol</string>
 
-    <string name="action_logout">Logout</string>
+    <string name="signUp_user_name">Name</string>
+    <string name="signUp_email">Email</string>
+    <string name="signUp_password1">Password</string>
+    <string name="signUp_password2">Confirm Password</string>
+    <string name="signUp_btSelectPhoto">Select photo</string>
+    <string name="singUp_message_shortPassword">The password is very short</string>
+    <string name="singUp_message_invalidEmail">The email isn\'t valid</string>
+    <string name="singUp_message_passwordDontMatch">The passwords don\'t match</string>
+
 
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
