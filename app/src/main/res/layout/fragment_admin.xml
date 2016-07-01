@@ -1,22 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AdminFragment">
-
-    <ImageView
-        android:id="@+id/base_admin_header"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/nav_header_background"
-        android:scaleType="fitCenter" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/base_admin_header"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/nav_header_background"
+            android:scaleType="fitCenter" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/base_admin_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/base_admin_header"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/base_admin_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/base_admin_header"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

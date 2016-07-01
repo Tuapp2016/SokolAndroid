@@ -508,8 +508,8 @@ public class MainActivity extends AppCompatActivity implements
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         final String users = getString(R.string.db_users_users);
-        if(databaseReference.child(users).child(user.getUid()) != null)
-            return;
+        //if(databaseReference.child(users).child(user.getUid()) != null)
+            //return;
         //databaseReference.child(getString(R.string.db_users_users));
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/"+users+"/" + user.getUid(), user.toMap());

@@ -15,7 +15,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,12 +39,15 @@
         <activity
             android:name=".activities.BaseActivity"
             android:label="@string/title_activity_base"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.ProfileActivity"
-            android:parentActivityName=".activities.BaseActivity"
-            android:label="@string/title_actvity_profile"/>
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".activities.BaseActivity" />
+        <activity android:name=".CreateRouteActivity"
+            android:label="@string/title_activity_create_route"/>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import sokol.sokolandroid.CreateRouteActivity;
 import sokol.sokolandroid.fragments.AdminFragment;
 import sokol.sokolandroid.R;
 import sokol.sokolandroid.adapters.ViewPagerAdapter;
@@ -49,6 +51,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private FloatingActionButton mFABTabs;
 
     private TextView mProfileName;
     private de.hdodenhof.circleimageview.CircleImageView mProfileImage;
@@ -143,6 +146,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 mNavigationView.getMenu().getItem(position).setChecked(true);
+                if(position == TAB_NEWS)
+                    mFABTabs.hide();
+                else
+                    mFABTabs.show();
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) { }
@@ -150,6 +157,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             public void onTabReselected(TabLayout.Tab tab) { }
         });
         setTabIcons();
+
+        mFABTabs = (FloatingActionButton) findViewById(R.id.base_fab);
+        mFABTabs.setOnClickListener(this);
+        mFABTabs.hide();
 
         mProfileName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name);
         mProfileImage = (de.hdodenhof.circleimageview.CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
@@ -194,17 +205,20 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         goToLoginActivity();
     }
 
+    private void forceLogout(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.preference_logout), true).commit();
+        BaseActivity.super.onBackPressed();
+    }
+
     private  void goToLoginActivity(){
         AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
         builder.setTitle(R.string.base_logout_title);
         builder.setMessage(getString(R.string.base_logout_message));
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.preference_logout), true).commit();
-                dialog.dismiss();
-                BaseActivity.super.onBackPressed();
+                forceLogout();
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -223,13 +237,18 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                Log.d(TAG, "Data has been changed for user " + user.getName());
-                mProfileName.setText(user.getName());
-                String URL = user.getProfileImage();
-                try {
-                    new Util.ImageFromURLTask(URL, mProfileImage).execute();
-                }catch (Exception e){
-                    Log.e(TAG, "Error getting image from: " + URL);
+                if(user == null) {
+                    //forceLogout();
+                    //return ;
+                }else {
+                    Log.d(TAG, "Data has been changed for user " + user.getName());
+                    mProfileName.setText(user.getName());
+                    String URL = user.getProfileImage();
+                    try {
+                        new Util.ImageFromURLTask(URL, mProfileImage).execute();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error getting image from: " + URL);
+                    }
                 }
             }
 
@@ -239,6 +258,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         mProfileReference.addValueEventListener(mProfileValueEventListener);
+    }
+
+    private void goToAddRoute(){
+        int idTab = mTabLayout.getSelectedTabPosition();
+        Intent intent = null;
+        switch (idTab){
+            case TAB_ADMIN:
+                intent = new Intent(this, CreateRouteActivity.class);
+                break;
+        }
+        startActivity(intent);
     }
 
     @Override
@@ -263,8 +293,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-
+        int id = v.getId();
+        switch (id){
+            case R.id.base_fab:
+                goToAddRoute();
+                break;
         }
     }
 
