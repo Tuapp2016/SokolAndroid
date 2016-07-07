@@ -4,10 +4,13 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,11 +24,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import sokol.sokolandroid.R;
 import sokol.sokolandroid.models.Point;
+import sokol.sokolandroid.util.CalculatorRoutes;
+
 
 public class CreateRouteMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -33,7 +43,7 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
 
     private GoogleMap mMap;
     private ArrayList<MarkerRoute> mMarkers;
-
+    private ArrayList<CalculateRoute> calculateRoutes;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -79,7 +89,7 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         loadPreviousPoints();
-
+        calculateRoutes = new ArrayList<CalculateRoute>();
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -123,6 +133,13 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
         else
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        if ( mMarkers.size() > 1)
+        {
+            String url = CalculatorRoutes.getUrl(mMarkers.get(mMarkers.size()-2).getMarker().getPosition(), latLng);
+            calculateRoutes.add(new CalculateRoute());
+            calculateRoutes.get(calculateRoutes.size()-1).execute(url);
+        }
+
     }
 
     private int getIndexMarker(Marker marker){
@@ -296,6 +313,46 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         @Override
         public int hashCode() {
             return  marker.hashCode();
+        }
+    }
+
+    private class CalculateRoute extends AsyncTask<String, Integer, List<LatLng>>
+    {
+        @Override
+        protected List<LatLng> doInBackground(String... url)
+        {
+            String jsonData[] = new String[1];
+            try
+            {
+                jsonData[0] = CalculatorRoutes.downloadUrl(url[0]);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            JSONObject jObject;
+            List<LatLng> route = null;
+            try
+            {
+                jObject = new JSONObject(jsonData[0]);
+                route = CalculatorRoutes.getPointsOfRoute(jObject);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return route;
+        }
+
+        @Override
+        protected void onPostExecute(List<LatLng> result)
+        {
+            ArrayList<LatLng> points = new ArrayList<>();
+            PolylineOptions lineOptions = new PolylineOptions();
+            for (int i = 0; i < result.size(); i++) points.add(result.get(i));
+            lineOptions.addAll(points);
+            lineOptions.width(8);
+            lineOptions.color(Color.BLUE);
+            mMap.addPolyline(lineOptions);
         }
     }
 }
