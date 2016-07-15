@@ -57,12 +57,19 @@
     <string name="profile_password_change_title">Change your password</string>
 
     <string name="title_activity_create_route">Create route</string>
+    <string name="create_route_data_title">Data route</string>
     <string name="create_route_name">Name</string>
+    <string name="create_route_invalid_input">Invalid input</string>
     <string name="create_route_desc">Description</string>
+    <string name="create_route_info">Info</string>
+    <string name="create_route_users">Users</string>
+    <string name="create_route_save">Save</string>
     <string name="create_route_points">Points</string>
     <string name="create_route_info_window_title">Marker data</string>
     <string name="create_route_info_window_name_title">Name</string>
     <string name="create_route_info_window_checkpoint_title">Checkpoint</string>
     <string name="create_route_info_window_delete_title">Delete</string>
     <string name="title_activity_create_route_maps">Map</string>
+
+    <string name="create_route_maps_uid">UID_ROUTE</string>
 </resources>

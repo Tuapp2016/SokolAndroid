@@ -6,17 +6,18 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -25,6 +26,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -33,22 +42,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sokol.sokolandroid.R;
-import sokol.sokolandroid.models.Point;
+import sokol.sokolandroid.models.Route;
 import sokol.sokolandroid.util.CalculatorRoutes;
 
 
-public class CreateRouteMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class CreateRouteMapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
     public static String TAG = CreateRouteMapsActivity.class.getSimpleName();
 
     private GoogleMap mMap;
-    private ArrayList<MarkerRoute> mMarkers;
-    private ArrayList<CalculateRoute> calculateRoutes;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    private ArrayList<MarketRoute> mMarkers;
+    private ArrayList<CalculateRoute> mCalculateRoutes;
+    private String mRouteId, mRouteUserId, mRouteName, mRouteDesc;
+    private List<String> mRoutesUser;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mFirebaseUser;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mRef;
+    private DatabaseReference mRefRoutes;
+    private DatabaseReference mRefuserByRoutes;
+
+    private FloatingActionButton mSaveRoute;
+    private FloatingActionButton mUsersRoute;
+    private FloatingActionButton mDataRoute;
 
     public CreateRouteMapsActivity() {
         mMarkers = new ArrayList<>();
@@ -57,16 +74,22 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setUpDB();
+
         setContentView(R.layout.activity_create_route_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        mSaveRoute = (FloatingActionButton) findViewById(R.id.create_route_map_save);
+        mSaveRoute.hide();
+        mSaveRoute.setOnClickListener(this);
 
+        mUsersRoute = (FloatingActionButton) findViewById(R.id.create_route_map_users);
+        mDataRoute = (FloatingActionButton) findViewById(R.id.create_route_map_data);
+        mDataRoute.setOnClickListener(this);
     }
 
 
@@ -88,8 +111,7 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        loadPreviousPoints();
-        calculateRoutes = new ArrayList<CalculateRoute>();
+        mCalculateRoutes = new ArrayList<>();
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -128,18 +150,25 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         markerOptions.draggable(true);
         markerOptions.title(makeTitleMarker(latLng, mMarkers.size()));
         Marker marker = mMap.addMarker(markerOptions);
-        mMarkers.add(new MarkerRoute(marker, isCheckPoint, name));
+        mMarkers.add(new MarketRoute(marker, isCheckPoint, name));
         if(isCheckPoint)
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
         else
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        if ( mMarkers.size() > 1)
-        {
+        if ( mMarkers.size() > 1){
             String url = CalculatorRoutes.getUrl(mMarkers.get(mMarkers.size()-2).getMarker().getPosition(), latLng);
-            calculateRoutes.add(new CalculateRoute());
-            calculateRoutes.get(calculateRoutes.size()-1).execute(url);
+            mCalculateRoutes.add(new CalculateRoute());
+            mCalculateRoutes.get(mCalculateRoutes.size()-1).execute(url);
+            updateDoneButton();
         }
 
+    }
+
+    private void updateDoneButton() {
+        if(mMarkers.size() > 1 && mRouteName != null && mRouteDesc != null && !mRouteName.isEmpty() && !mRouteDesc.isEmpty())
+            mSaveRoute.show();
+        else
+            mSaveRoute.hide();
     }
 
     private int getIndexMarker(Marker marker){
@@ -155,32 +184,74 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         return "# " + (id + 1) + "\n("+lat+", "+lng+")";
     }
 
-    private void loadPreviousPoints(){
-        ArrayList<Point> points = CreateRouteActivity.mPoints;
-        for(int i = 0; i < points.size(); i++){
-            Point point = points.get(i);
-            addMarker(point.getLatLng(), point.getName(), point.isCheckPoint());
-        }
+    private void showDataDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateRouteMapsActivity.this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.activity_create_route_data, null);
+        builder.setView(dialogView);
+        final TextInputLayout nameTI = (TextInputLayout) dialogView.findViewById(R.id.create_route_name_ti);
+        final TextInputLayout descTI = (TextInputLayout) dialogView.findViewById(R.id.create_route_desc_ti);
+
+        final EditText nameET = (EditText) dialogView.findViewById(R.id.create_route_name);
+        final EditText descET = (EditText) dialogView.findViewById(R.id.create_route_desc);
+
+        nameET.setText( mRouteName != null ? mRouteName : "");
+        descET.setText( mRouteDesc != null ? mRouteDesc : "");
+
+        builder.setTitle(R.string.create_route_data_title);
+        builder.setPositiveButton(R.string.create_route_save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mRouteName = nameET.getText().toString();
+                mRouteDesc = descET.getText().toString();
+
+                boolean validInputs = !mRouteName.isEmpty() && !mRouteDesc.isEmpty();
+
+                if(mRouteName.isEmpty())
+                    nameTI.setError(getString(R.string.create_route_invalid_input));
+
+                if(mRouteDesc.isEmpty())
+                    descTI.setError(getString(R.string.create_route_invalid_input));
+
+                if(validInputs) {
+                    Toast.makeText(getApplicationContext(), "Save in DB", Toast.LENGTH_SHORT).show();
+                    updateDB();
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(true);
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void showInfoDialog(final Marker marker){
         marker.hideInfoWindow();
         final int markerIndex = getIndexMarker(marker);
-        final MarkerRoute markerRoute = mMarkers.get(markerIndex);
+        final MarketRoute marketRoute = mMarkers.get(markerIndex);
         AlertDialog.Builder builder = new AlertDialog.Builder(CreateRouteMapsActivity.this);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_create_route_info_window, null);
         builder.setView(dialogView);
         final TextView name = (TextView) dialogView.findViewById(R.id.create_route_info_window_name);
-        name.setText(markerRoute.getName());
+        name.setText(marketRoute.getName());
         final SwitchCompat checkPoint = (SwitchCompat) dialogView.findViewById(R.id.create_route_info_window_checkpoint);
-        checkPoint.setChecked(markerRoute.isCheckPoint());
+        checkPoint.setChecked(marketRoute.isCheckPoint());
         checkPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isCheckPoint = checkPoint.isChecked();
-                markerRoute.setCheckPoint(isCheckPoint);
+                marketRoute.setCheckPoint(isCheckPoint);
                 if(isCheckPoint)
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 else
@@ -196,12 +267,13 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
                 marker.remove();
                 mMarkers.remove(markerIndex);
                 dialog.dismiss();
+                updateDoneButton();
             }
         });
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                markerRoute.setName(name.getText().toString());
+                marketRoute.setName(name.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -211,64 +283,95 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         alert.show();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void setUpDB(){
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mRef = mFirebaseDatabase.getReference();
+        mRefRoutes = mRef.child("routes");
+        mRefuserByRoutes = mRef.child("userByRoutes");
+        mRouteUserId = mFirebaseUser.getUid();
 
-/*        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "CreateRouteMaps Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://sokol.sokolandroid.activities/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);*/
+        mRouteId = getIntent().getStringExtra(getString(R.string.create_route_maps_uid));
+        if(mRouteId != null)
+            getDataRoute();
+
+        getUserRoutes();
+    }
+
+    private void getDataRoute(){
+        final DatabaseReference dataRoute = mRefRoutes.child(mRouteUserId);
+        dataRoute.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Route route = dataSnapshot.getValue(Route.class);
+                mRouteName = route.getName();
+                mRouteDesc = route.getDescription();
+                int size = route.getPointNames().size();
+                for(int i = 0; i < size; i++)
+                    addMarker(new LatLng(route.getLatitudes().get(i), route.getLongitudes().get(i)),
+                            route.getPointNames().get(i), route.getCheckPoints().get(i));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserRoutes(){
+        final DatabaseReference routesUser = mRefuserByRoutes.child(mRouteUserId).child("routes");
+        routesUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                mRoutesUser = dataSnapshot.getValue(t);
+                if(mRoutesUser == null)
+                    mRoutesUser = new ArrayList<String>();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void updateDB(){
+        if(mRouteId == null || mRouteId.equals(""))
+            mRouteId = mRefRoutes.push().getKey();
+        DatabaseReference routeReference = mRefRoutes.child(mRouteId);
+        Route route = new Route(mRouteUserId, mRouteName, mRouteDesc, mMarkers);
+        routeReference.setValue(route);
+        DatabaseReference userByReference = mRefuserByRoutes.child(mRouteUserId).child("routes");
+        mRoutesUser.add(mRouteId);
+        userByReference.setValue(mRoutesUser);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        /*
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "CreateRouteMaps Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://sokol.sokolandroid.activities/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();*/
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        ArrayList<Point> points = CreateRouteActivity.mPoints;
-        points.clear();
-
-        for (MarkerRoute markerRoute : mMarkers)
-            points.add(new Point(markerRoute.getMarker().getPosition(), markerRoute.isCheckPoint(), markerRoute.getName()));
+    public void onClick(View v) {
+        int id = v.getId();
+        switch( id ){
+            case R.id.create_route_map_data:
+                showDataDialog();
+                break;
+            case R.id.create_route_map_users:
+                break;
+            case R.id.create_route_map_save:
+                break;
+        }
     }
 
 
-    static class MarkerRoute {
+
+    public static class MarketRoute {
         private Marker marker;
         private String name;
         private boolean checkPoint;
 
-        public MarkerRoute(Marker marker, boolean checkPoint, String name) {
+        public MarketRoute(Marker marker, boolean checkPoint, String name) {
             this.marker = marker;
             this.name = name;
             this.checkPoint = checkPoint;
@@ -303,7 +406,7 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            MarkerRoute that = (MarkerRoute) o;
+            MarketRoute that = (MarketRoute) o;
 
             if (checkPoint != that.checkPoint) return false;
             return marker != null ? marker.equals(that.marker) : that.marker == null;

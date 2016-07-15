@@ -258,12 +258,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         mProfileReference.addValueEventListener(mProfileValueEventListener);
     }
 
-    private void goToAddRoute(){
+    private void goToRoute(){
         int idTab = mTabLayout.getSelectedTabPosition();
         Intent intent = null;
         switch (idTab){
             case TAB_ADMIN:
-                intent = new Intent(this, CreateRouteActivity.class);
+                intent = new Intent(this, CreateRouteMapsActivity.class);
                 break;
         }
         startActivity(intent);
@@ -294,7 +294,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
         switch (id){
             case R.id.base_fab:
-                goToAddRoute();
+                goToRoute();
                 break;
         }
     }

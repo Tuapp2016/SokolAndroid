@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/create_route_info"
+        android:title="@string/create_route_info"/>
+    <item
+        android:id="@+id/create_route_users"
+        android:title="@string/create_route_users"/>
+    <item
+        android:id="@+id/create_route_save"
+        android:title="@string/create_route_save"/>
+</menu>

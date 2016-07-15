@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_route_name_ti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <EditText
+            android:id="@+id/create_route_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/create_route_name"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_route_desc_ti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_route_name_ti"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <EditText
+            android:id="@+id/create_route_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/create_route_desc"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_above="@+id/create_route_recycle"
+            android:lines="5" />
+    </android.support.design.widget.TextInputLayout>
+</RelativeLayout>
