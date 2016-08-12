@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -75,8 +76,6 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setUpDB();
-
         setContentView(R.layout.activity_create_route_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -138,17 +137,19 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
             public void onMarkerDragEnd(Marker marker) {
                 int index = getIndexMarker(marker);
                 LatLng position = marker.getPosition();
-                marker.setTitle(makeTitleMarker(position, index));
+                marker.setTitle(getString(R.string.create_route_info_window_title, index));
                 marker.hideInfoWindow();
             }
         });
+
+        setUpDB();
     }
 
     private void addMarker(LatLng latLng, String name, boolean isCheckPoint){
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.draggable(true);
-        markerOptions.title(makeTitleMarker(latLng, mMarkers.size()));
+        markerOptions.title(getString(R.string.create_route_info_window_title, mMarkers.size()));
         Marker marker = mMap.addMarker(markerOptions);
         mMarkers.add(new MarketRoute(marker, isCheckPoint, name));
         if(isCheckPoint)
@@ -178,10 +179,12 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         return -1;
     }
 
-    private String makeTitleMarker(LatLng latLng, int id){
+    private String makeTitleMarker(LatLng latLng){
         String lat = String.format("%.4f",latLng.latitude);
         String lng = String.format("%.4f",latLng.longitude);
-        return "# " + (id + 1) + "\n("+lat+", "+lng+")";
+        String message = getString(R.string.create_route_info_window_latitude_title, lat)  + "\n";
+        message += getString(R.string.create_route_info_window_longitude_title, lng);
+        return message;
     }
 
     private void showDataDialog(){
@@ -203,10 +206,9 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         builder.setPositiveButton(R.string.create_route_save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, which+"");
                 mRouteName = nameET.getText().toString();
                 mRouteDesc = descET.getText().toString();
-
-                boolean validInputs = !mRouteName.isEmpty() && !mRouteDesc.isEmpty();
 
                 if(mRouteName.isEmpty())
                     nameTI.setError(getString(R.string.create_route_invalid_input));
@@ -214,11 +216,10 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
                 if(mRouteDesc.isEmpty())
                     descTI.setError(getString(R.string.create_route_invalid_input));
 
-                if(validInputs) {
-                    Toast.makeText(getApplicationContext(), "Save in DB", Toast.LENGTH_SHORT).show();
-                    updateDB();
+                boolean validInputs = !mRouteName.isEmpty() && !mRouteDesc.isEmpty();
+                if(validInputs)
                     dialog.dismiss();
-                }
+                updateDoneButton();
             }
         });
 
@@ -258,9 +259,8 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
                     marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             }
         });
-
-        builder.setTitle(R.string.create_route_info_window_title);
-        builder.setMessage(makeTitleMarker(marker.getPosition(), markerIndex));
+        builder.setTitle(getString(R.string.create_route_info_window_title, markerIndex));
+        builder.setMessage(makeTitleMarker(marker.getPosition()));
         builder.setNeutralButton(R.string.create_route_info_window_delete_title, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -288,8 +288,8 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
         mFirebaseUser = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mRef = mFirebaseDatabase.getReference();
-        mRefRoutes = mRef.child("routes");
-        mRefuserByRoutes = mRef.child("userByRoutes");
+        mRefRoutes = mRef.child(getString(R.string.db_routes));
+        mRefuserByRoutes = mRef.child(getString(R.string.db_user_by_routes));
         mRouteUserId = mFirebaseUser.getUid();
 
         mRouteId = getIntent().getStringExtra(getString(R.string.create_route_maps_uid));
@@ -300,11 +300,12 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
     }
 
     private void getDataRoute(){
-        final DatabaseReference dataRoute = mRefRoutes.child(mRouteUserId);
+        final DatabaseReference dataRoute = mRefRoutes.child(mRouteId);
         dataRoute.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Route route = dataSnapshot.getValue(Route.class);
+                if(route == null) return ;
                 mRouteName = route.getName();
                 mRouteDesc = route.getDescription();
                 int size = route.getPointNames().size();
@@ -321,7 +322,7 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
     }
 
     private void getUserRoutes(){
-        final DatabaseReference routesUser = mRefuserByRoutes.child(mRouteUserId).child("routes");
+        final DatabaseReference routesUser = mRefuserByRoutes.child(mRouteUserId).child(getString(R.string.db_routes));
         routesUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -342,11 +343,16 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
     private void updateDB(){
         if(mRouteId == null || mRouteId.equals(""))
             mRouteId = mRefRoutes.push().getKey();
+
+        // Updates routes
         DatabaseReference routeReference = mRefRoutes.child(mRouteId);
         Route route = new Route(mRouteUserId, mRouteName, mRouteDesc, mMarkers);
         routeReference.setValue(route);
-        DatabaseReference userByReference = mRefuserByRoutes.child(mRouteUserId).child("routes");
-        mRoutesUser.add(mRouteId);
+
+        //Updates userByRoutes
+        DatabaseReference userByReference = mRefuserByRoutes.child(mRouteUserId).child(getString(R.string.db_routes));
+        if(!mRoutesUser.contains(mRouteId))
+            mRoutesUser.add(mRouteId);
         userByReference.setValue(mRoutesUser);
     }
 
@@ -360,6 +366,8 @@ public class CreateRouteMapsActivity extends FragmentActivity implements OnMapRe
             case R.id.create_route_map_users:
                 break;
             case R.id.create_route_map_save:
+                Toast.makeText(getApplicationContext(), "Saved in DB", Toast.LENGTH_SHORT).show();
+                updateDB();
                 break;
         }
     }

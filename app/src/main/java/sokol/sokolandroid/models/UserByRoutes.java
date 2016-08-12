@@ -4,15 +4,9 @@ import java.util.List;
 
 public class UserByRoutes {
     private List<String> routes;
-    private List<String> names;
 
-    public UserByRoutes(){
-
-    }
-
-    public UserByRoutes(List<String> routes, List<String> names) {
+    public UserByRoutes(List<String> routes) {
         this.routes = routes;
-        this.names = names;
     }
 
     public List<String> getRoutes() {
@@ -22,12 +16,5 @@ public class UserByRoutes {
     public void setRoutes(List<String> routes) {
         this.routes = routes;
     }
-
-    public List<String> getNames() {
-        return names;
-    }
-
-    public void setNames(List<String> names) {
-        this.names = names;
-    }
 }
+

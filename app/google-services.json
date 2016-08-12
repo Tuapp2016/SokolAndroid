@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "334202422131-d68p2f2pl1f8uvk71s2lmfj52j8s869a.apps.googleusercontent.com",
+          "client_id": "334202422131-jkuvp6q5ajjl3fmn2tb7q53mmqihrm2r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "sokol.sokolandroid",
-            "certificate_hash": "4E44DF4F1DFAE68A250B7D7E4556BC0F8268C8C5"
+            "certificate_hash": "6FF286C835AC3A92EED7D675AA6970C7847C5F3C"
+          }
+        },
+        {
+          "client_id": "334202422131-egjd60dfudqvic2bjuqfdvdp9ke8pfov.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sokol.sokolandroid",
+            "certificate_hash": "2122C8FAEC1E4A8C54446F06282F276B9F6F4818"
           }
         },
         {
@@ -40,15 +48,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "334202422131-99l1kc4er3coi83lljm5nmr7cg2bk60o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "334202422131-nbekigfmp3hialkmefn3qgfn8tho7tqm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "co.edu.unal.aguiterrezt.Sokol"
               }
-            },
-            {
-              "client_id": "334202422131-99l1kc4er3coi83lljm5nmr7cg2bk60o.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },

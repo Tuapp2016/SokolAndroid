@@ -62,6 +62,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference mProfileReference;
     private ValueEventListener mProfileValueEventListener;
 
+
+    // Fragments, those are used in view pager
+    private NewsFragment mNewsFragment;
+    private AdminFragment mAdminFragment;
+    private UserFragment mUserFragment;
+    private ViewerFragment mViewerFragment;
+
+
     private static final int TAB_NEWS = 0;
     private static final int TAB_ADMIN = 1;
     private static final int TAB_USER = 2;
@@ -174,11 +182,26 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setViewPager(){
+        mNewsFragment = new NewsFragment();
+        mAdminFragment = new AdminFragment();
+        mUserFragment = new UserFragment();
+        mViewerFragment = new ViewerFragment();
+
+        mAdminFragment.setOnRouteNameLister(new AdminFragment.RecycleRouteNamesListener() {
+            @Override
+            public void onRouteName(String uid) {
+                Intent intent = new Intent(getApplicationContext(), CreateRouteMapsActivity.class);
+                intent.putExtra(getString(R.string.create_route_maps_uid), uid);
+                startActivity(intent);
+            }
+        });
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), true);
-        viewPagerAdapter.addFragment(new NewsFragment(), getString(R.string.nav_news_title));
-        viewPagerAdapter.addFragment(new AdminFragment(), getString(R.string.nav_admin_title));
-        viewPagerAdapter.addFragment(new UserFragment(), getString(R.string.nav_user_title));
-        viewPagerAdapter.addFragment(new ViewerFragment(), getString(R.string.nav_viewer_title));
+        viewPagerAdapter.addFragment(mNewsFragment, getString(R.string.nav_news_title));
+        viewPagerAdapter.addFragment(mAdminFragment, getString(R.string.nav_admin_title));
+        viewPagerAdapter.addFragment(mUserFragment, getString(R.string.nav_user_title));
+        viewPagerAdapter.addFragment(mViewerFragment, getString(R.string.nav_viewer_title));
+
         mViewPager.setAdapter(viewPagerAdapter);
     }
 

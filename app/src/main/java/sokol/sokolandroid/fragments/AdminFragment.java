@@ -1,29 +1,29 @@
 package sokol.sokolandroid.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sokol.sokolandroid.R;
-import sokol.sokolandroid.activities.CreateRouteMapsActivity;
-import sokol.sokolandroid.models.UserByRoutes;
+import sokol.sokolandroid.adapters.RouteNamesAdapter;
+import sokol.sokolandroid.models.Route;
+import sokol.sokolandroid.models.RouteName;
 
 public class AdminFragment extends Fragment implements  View.OnClickListener{
 
@@ -33,15 +33,20 @@ public class AdminFragment extends Fragment implements  View.OnClickListener{
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
     private DatabaseReference mRefRoutes;
+    private DatabaseReference mRefUserByRoutes;
+    private List<DatabaseReference> mRefEachRoute;
 
     private String mUserUid;
 
-    private FirebaseRecyclerAdapter<UserByRoutes, RouteHolder> mAdapter;
+    private List<String> mRoutesUIDs;
+    private List<RouteName> mRoutesNames;
+
+    private RouteNamesAdapter mRouteNamesAdapter;
+    private RecycleRouteNamesListener mRouteNamesListener;
 
     public AdminFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,32 +56,75 @@ public class AdminFragment extends Fragment implements  View.OnClickListener{
         mAuth = FirebaseAuth.getInstance();
         mUserUid = mAuth.getCurrentUser().getUid();
         mRef = FirebaseDatabase.getInstance().getReference();
-        mRefRoutes = mRef.child("userByRoutes").child(mUserUid);
+        mRefRoutes = mRef.child(getString(R.string.db_routes));
+        mRefUserByRoutes = mRef.child("userByRoutes").child(mUserUid).child(getString(R.string.db_routes));
+        mRefEachRoute = new ArrayList<>();
 
         mHeaderImageView = (ImageView) view.findViewById(R.id.base_admin_header);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.base_admin_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        mAdapter = new FirebaseRecyclerAdapter<UserByRoutes, RouteHolder>(UserByRoutes.class, android.R.layout.two_line_list_item, RouteHolder.class, mRefRoutes) {
+        mRoutesUIDs = new ArrayList<>();
+        mRoutesNames = new ArrayList<>();
+
+        mRouteNamesAdapter = new RouteNamesAdapter(mRoutesNames);
+        mRouteNamesAdapter.setRouteNamesListener(new RouteNamesAdapter.OnItemClickListener() {
             @Override
-            public void populateViewHolder(RouteHolder routeHolder, UserByRoutes route, int position) {
-                routeHolder.mName.setText(route.getNames().get(position));
-                routeHolder.mUid.setVisibility(View.INVISIBLE);
-                routeHolder.mUid.setText(route.getRoutes().get(position));
-            }
-        };
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int itemPosition = mRecyclerView.indexOfChild(v);
-                String item = mAdapter.getItem(itemPosition).getRoutes().get(itemPosition);
-                Intent intent = new Intent(getContext(), CreateRouteMapsActivity.class);
-                intent.putExtra(getString(R.string.create_route_maps_uid), item);
-                startActivity(intent);
+            public void onItemClick(String uid) {
+                mRouteNamesListener.onRouteName(uid);
             }
         });
+        mRecyclerView.setAdapter(mRouteNamesAdapter);
+
+        mRefUserByRoutes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> routesUids = (ArrayList<String>) dataSnapshot.getValue();
+                if(routesUids == null)
+                    mRoutesUIDs = new ArrayList<String>();
+                else
+                    mRoutesUIDs = routesUids;
+                getRouteNames();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return view;
+    }
+
+    private void getRouteNames(){
+        mRefEachRoute.clear();
+        if(mRoutesUIDs != null)
+        for (String uid: mRoutesUIDs){
+            DatabaseReference ref = mRefRoutes.child(uid);
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String uid = dataSnapshot.getKey();
+                    Route route = dataSnapshot.getValue(Route.class);
+                    String name = route.getName();
+                    boolean updated = false;
+                    for(RouteName rm: mRoutesNames){
+                        if(rm.getUid().equals(uid)){
+                            rm.setName(name);
+                            updated = true;
+                            break;
+                        }
+                    }
+                    if(!updated)
+                        mRoutesNames.add(new RouteName(uid, name));
+                    mRouteNamesAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+            mRefEachRoute.add(ref);
+        }
     }
 
     @Override
@@ -87,15 +135,12 @@ public class AdminFragment extends Fragment implements  View.OnClickListener{
         }
     }
 
-    private static class RouteHolder extends RecyclerView.ViewHolder {
-        TextView mUid;
-        TextView mName;
+    public interface RecycleRouteNamesListener {
+        void onRouteName(String uid);
+    }
 
-        public RouteHolder(View itemView) {
-            super(itemView);
-            mUid = (TextView) itemView.findViewById(android.R.id.text2);
-            mName = (TextView) itemView.findViewById(android.R.id.text1);
-         }
+    public void setOnRouteNameLister(final RecycleRouteNamesListener listener){
+        mRouteNamesListener = listener;
     }
 
 }
